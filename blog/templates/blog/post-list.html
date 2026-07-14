@@ -1,6 +1,26 @@
-<h4>{{ title }}</h4>
-<ul>
+{% extends "base.html" %}
+{% load blog_extras %}
+
+{% block content %}
+<h2>Blog Posts</h2>
+
 {% for post in posts %}
-    <li><a href="{% url "blog-post-detail" post.slug %}">{{ post.title }}</a></li>
+<div class="row border-bottom py-3">
+    <div class="col">
+        <h3>{{ post.title }}</h3>
+
+        {% include "blog/post-byline.html" %}
+
+        <p>{{ post.summary }}</p>
+
+        <p>
+            ({{ post.content|wordcount }} words)
+            <a href="{% url 'blog-post-detail' post.slug %}">
+                Read More
+            </a>
+        </p>
+    </div>
+</div>
 {% endfor %}
-</ul>
+
+{% endblock %}

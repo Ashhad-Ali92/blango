@@ -47,8 +47,8 @@ def author_details_tag(context):
 
 
 @register.simple_tag
-def row():
-  return '<div class="row">'
+def row(extra_classes=""):
+    return format_html('<div class="row {}">', extra_classes)
 
 @register.simple_tag
 def endrow():
@@ -67,7 +67,17 @@ def wordcount(content):
 def row(extra_classes=""):
   return format_html('<div class="row{}',extra_classes)
   
-@register.simple_tag
+@register.inclusion_tag("blog/recent-posts.html")
 def recent_posts(post):
-  posts=Post.objects.exclude(pk=post.pk)[:5]
-  return {"title": "Recent Posts","posts":posts}
+    posts = Post.objects.exclude(pk=post.pk)[:5]
+
+    return {
+        "title": "Recent Posts",
+        "posts": posts,
+    }
+@register.simple_tag
+def col(extra_classes=""):
+    return format_html('<div class="col {}">', extra_classes)
+@register.simple_tag
+def endcol():
+    return format_html("</div>")
